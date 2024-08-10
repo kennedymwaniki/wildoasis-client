@@ -5,6 +5,7 @@
 /starter
 
 /.pnp
+/starter
 .pnp.js
 .yarn/install-state.gz
 
