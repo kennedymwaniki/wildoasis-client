@@ -1,7 +1,9 @@
+import CabinCard from "../_components/CabinCard";
+
 export const metadata = {
   title: "Cabins",
 };
-
+CabinCard;
 export default function Page() {
   // CHANGE
   const cabins = [];
