@@ -10,7 +10,11 @@ function CabinCard({ cabin }) {
       <Image
         src={image}
         alt={`Cabin ${name}`}
-        className="flex-1 border-r border-primary-800"
+        blurDataURL={image}
+        quality={80}
+        width={200}
+        height={200}
+        className="flex-1 border-r border-primary-800 object-cover object-top"
       />
 
       <div className="flex-grow">
