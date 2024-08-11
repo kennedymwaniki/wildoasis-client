@@ -1,11 +1,13 @@
 import Image from "next/image";
 import about1 from "@/public/about-1.jpg";
 import about2 from "@/public/about-2.jpg";
+import { getCabins } from "../_lib/data-service";
 export const metadata = {
   title: "About",
 };
 
-export default function Page() {
+export default async function Page() {
+  const cabins = await getCabins();
   return (
     <div className="grid grid-cols-5 gap-x-24 gap-y-32 text-lg items-center">
       <div className="col-span-3">

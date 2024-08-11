@@ -42,6 +42,7 @@ export default function Page() {
             <label htmlFor="nationality">Where are you from?</label>
             <Image
               src={countryFlag}
+              fill
               alt="Country flag"
               className="h-5 rounded-sm"
             />
