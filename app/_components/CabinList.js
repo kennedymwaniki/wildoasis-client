@@ -4,7 +4,7 @@ import { getCabins } from "../_lib/data-service";
 export default async function CabinList() {
   console.log("Starting.....");
   const cabins = await getCabins();
-  console.log(cabins);
+
   if (!cabins.length) return null;
   return (
     <div>
