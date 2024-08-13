@@ -1,8 +1,10 @@
 import CabinCard from "./CabinCard";
 import { getCabins } from "../_lib/data-service";
+// import { unstable_noStore as noStore } from "next/cache";
 
 export default async function CabinList() {
-  console.log("Starting.....");
+  //! here we opt out caching for this function, we can not use revalidate because we are not using fetch api
+  // noStore();
   const cabins = await getCabins();
 
   if (!cabins.length) return null;
