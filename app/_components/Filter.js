@@ -4,8 +4,8 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 function Filter() {
   const searchParams = useSearchParams();
-  const router = useRouter();
-  const pathname = usePathname();
+  const router = useRouter(); //! the entire route
+  const pathname = usePathname(); //! /pathname
 
   const activeFilter = searchParams.get("capacity") ?? "all";
 
