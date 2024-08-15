@@ -27,8 +27,8 @@ export async function generateStaticParams() {
 
 export default async function Page({ params }) {
   const cabin = await getCabin(params.cabinId);
-  const setting = await getSettings();
-  const bookedDates = await getBookedDatesByCabinId(params.cabinId);
+  // const setting = await getSettings();
+  // const bookedDates = await getBookedDatesByCabinId(params.cabinId);
 
   console.log(params);
 

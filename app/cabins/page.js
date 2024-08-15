@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import CabinList from "../_components/CabinList";
 import Spinner from "../_components/Spinner";
 import Filter from "../_components/Filter";
+import ReservationReminder from "../_components/ReservationReminder";
 
 // //!opting out of the data cache , which will cancel full route cache(the data will always be revalidated)
 // //! revalidation time is in seconds-- 15 id seconds 1hr -> 3600
@@ -31,6 +32,7 @@ export default function Page({ searchParams }) {
 
       <Suspense fallback={<Spinner />} key={filter}>
         <CabinList filter={filter} />
+        <ReservationReminder />
       </Suspense>
     </div>
   );
