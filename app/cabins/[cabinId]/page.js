@@ -1,15 +1,9 @@
+import { Suspense } from "react";
 import Cabin from "@/app/_components/Cabin";
 import Reservation from "@/app/_components/Reservation";
 import Spinner from "@/app/_components/Spinner";
-import {
-  getBookedDatesByCabinId,
-  getCabin,
-  getCabins,
-  getSettings,
-} from "@/app/_lib/data-service";
+import { getCabin, getCabins } from "@/app/_lib/data-service";
 
-import Image from "next/image";
-import { Suspense } from "react";
 export async function generateMetadata({ params }) {
   const { name } = await getCabin(params.cabinId);
   return { title: `Cabin ${name}` };
