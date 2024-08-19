@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { auth, signIn, signOut } from "./auth";
 import { supabase } from "./supabase";
 import { getBooking, getBookings } from "./data-service";
+import { redirect } from "next/navigation";
 
 export async function signInAction() {
   await signIn("google", { redirectTo: "/account" });
@@ -58,4 +59,36 @@ export async function deleteReservation(bookingId) {
 
   if (error) throw new Error("Booking could not be deleted");
   revalidatePath("/account/profile");
+}
+
+export async function updateReservation(formData) {
+  const bookingId = Number(formData.get("reservationId"));
+  //!check if there is a currently authenticated user
+  const session = await auth();
+  if (!session) throw new Error("You are not permitted to do this ");
+  const guestBookings = await getBookings(session.user.guestId);
+
+  //!building update data
+  const observations = formData.get("observations").slice(0, 200);
+  const numGuests = Number(formData.get("numGuests"));
+
+  //!to prevent a user from deleting a reservation/booking that is not associated with their id
+  const guestBookingIds = guestBookings.map((booking) => booking.id);
+  if (!guestBookingIds.includes(bookingId)) {
+    throw new Error(
+      "You do not have a booking with this id and are not allowed to delete it"
+    );
+  }
+
+  const updatedFields = { numGuests, observations };
+
+  const { error } = await supabase
+    .from("bookings")
+    .update(updatedFields)
+    .eq("id", bookingId)
+    .select()
+    .single();
+
+  if (error) throw new Error("Reservation could not be updated");
+  redirect("/account/reservations");
 }
