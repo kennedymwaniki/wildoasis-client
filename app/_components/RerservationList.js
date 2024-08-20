@@ -15,7 +15,9 @@ function RerservationList({ bookings }) {
   );
 
   async function handleDelete(bookingId) {
+    //!optimistic deletion
     optimisticDelete(bookingId);
+    //!actual deletion
     await deleteReservation(bookingId);
   }
   return (
