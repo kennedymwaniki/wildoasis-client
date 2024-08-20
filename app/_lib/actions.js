@@ -79,9 +79,10 @@ export async function updateReservation(formData) {
       "You do not have a booking with this id and are not allowed to delete it"
     );
   }
-
+  //!data to be updated
   const updatedFields = { numGuests, observations };
 
+  //!mutation
   const { error } = await supabase
     .from("bookings")
     .update(updatedFields)
@@ -90,5 +91,8 @@ export async function updateReservation(formData) {
     .single();
 
   if (error) throw new Error("Reservation could not be updated");
+  //!revalidation
+  revalidatePath(`/account/reservations/edit/${bookingId}`);
+  revalidatePath("/account/reservations");
   redirect("/account/reservations");
 }

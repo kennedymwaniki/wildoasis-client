@@ -2,11 +2,10 @@
 
 import { useState } from "react";
 import { useFormStatus } from "react-dom";
-import Image from "next/image";
 import { updateProfile } from "../_lib/actions";
 
 function UpdateProfile({ guest, children }) {
-  const [count, setCount] = useState();
+  // const [count, setCount] = useState();
   const { fullName, nationality, nationalID, countryFlag, email } = guest;
   return (
     <div>
