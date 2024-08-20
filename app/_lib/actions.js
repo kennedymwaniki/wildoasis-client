@@ -61,6 +61,33 @@ export async function deleteReservation(bookingId) {
   revalidatePath("/account/profile");
 }
 
+export async function createReservation(bookingData, formData) {
+  const session = await auth();
+  if (!session) throw new Error("You must be logged in");
+
+  const newBookingData = {
+    ...bookingData,
+    guestId: session.user.guestId,
+    numGuests: formData.get("numGuests"),
+    observations: formData.get("observations").slice(0, 1000),
+    extraPrice: 0,
+    totalPrice: bookingData.cabinPrice,
+    isPaid: false,
+    hasBreakfast: false,
+    status: "unconfirmed",
+  };
+  const { error } = await supabase
+    .from("bookings")
+    .insert([newBookingData])
+    // So that the newly created object gets returned!
+    .select()
+    .single();
+
+  if (error) throw new Error("Booking could not be created");
+  revalidatePath(`/cabins/${bookingData.cabinId}`);
+  redirect("/cabins/thankyou");
+}
+
 export async function updateReservation(formData) {
   const bookingId = Number(formData.get("reservationId"));
   //!check if there is a currently authenticated user
@@ -69,7 +96,7 @@ export async function updateReservation(formData) {
   const guestBookings = await getBookings(session.user.guestId);
 
   //!building update data
-  const observations = formData.get("observations").slice(0, 200);
+  const observations = formData.get("observations").slice(0, 1000);
   const numGuests = Number(formData.get("numGuests"));
 
   //!to prevent a user from deleting a reservation/booking that is not associated with their id
